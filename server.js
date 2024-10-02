@@ -44,3 +44,13 @@ let PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`server is running at ${PORT}`.bgBlue.blue);
 });
+
+
+// {
+//   "userName":"thomas",
+//   "Email":"mpal6953@gmail.com",
+//   "password":"Thomasyadav21@",
+//   "address":"bihar",
+//   "phone":4569871236,
+//   "userType":"client"  
+// }

@@ -1,5 +1,7 @@
 const OrganiseSchema = require("../model/OrganiseSchema")
 const todoModel = require("../model/todoSchema")
+const userModel = require("../model/userModel")
+const { sendmail } = require("../sendNotification/sendnotification")
 
 
 
@@ -178,7 +180,7 @@ const deleteTodo = async (req, res,next) => {
 // --------------------------------------------------------------------------------------------
 
 
-let pendingTask = async (req, res) => {
+let pendingTask = async (req, res,next) => {
     try {
         let pendingTask = await todoModel.find({ status: "pending" })
         res.status(201).send({
@@ -189,14 +191,11 @@ let pendingTask = async (req, res) => {
         })
 
     } catch (error) {
-        return res.status(500).send({
-            success: false,
-            message: error.message
-        })
+        next(error)
     }
 }
 
-const notificationForSingleTAsk = async (req, res) => {
+const notificationForSingleTAsk = async (req, res,next) => {
     let todoId = req.params.id
     let userId = req.body.id
     let pendingTask = await todoModel.findById(todoId)
@@ -206,7 +205,7 @@ const notificationForSingleTAsk = async (req, res) => {
     sendmail(user.Email, pendingTask)
 }
 
-const AllPendingTodoNotification = async (req, res) => {
+const AllPendingTodoNotification = async (req, res,next) => {
     try {
         const { id } = req.body
         // console.log("this is id",id);
@@ -226,17 +225,13 @@ const AllPendingTodoNotification = async (req, res) => {
             pendingTask
         })
     } catch (error) {
-        return res.status(500).send({
-            success: false,
-            message: error.message
-        })
-
+        next(error)
     }
 
 }
 
 //time Taken to complete the task
-const timeTakenOfSingleTask = async (req, res) => {
+const timeTakenOfSingleTask = async (req, res,next) => {
     try {
         let todoId = req.params.id
         if (!todoId) {
@@ -277,15 +272,12 @@ const timeTakenOfSingleTask = async (req, res) => {
 
 
     } catch (error) {
-        return res.status(500).send({
-            success: false,
-            message: error.message
-        })
+        next(error)
     }
 
 }
 //^ repeating task at very-day ||week ||month
-const repeatTask = async (req, res) => {
+const repeatTask = async (req, res,next) => {
     let current = new Date()
     let hours = current.getHours()
     let weekday = current.getDay()
@@ -315,11 +307,7 @@ const repeatTask = async (req, res) => {
         }
 
     } catch (error) {
-        return res.send({
-            success: false,
-            message: error.message
-        })
-
+        next(error)
     }
 }
 

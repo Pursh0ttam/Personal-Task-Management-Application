@@ -13,7 +13,7 @@ let todoSchema = new Schema({
     },
     projectId:{
        type:mongoose.Schema.Types.ObjectId,ref:'OrganiseSchema',
-       required:true,
+    //    required:true,
     },
     label:[{type:mongoose.Schema.Types.ObjectId,ref:"label"}],  
     description: {
