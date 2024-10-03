@@ -1,8 +1,8 @@
-const userModel = require("../model/userModel")
+const userModel = require("../model/user.model")
 
 
 
-let getAllusercontroller = async (req, res,next) => {
+let getAllusercontroller = async (req, res, next) => {
     try {
         let id = req.body.id
         if (!id) {
@@ -10,7 +10,7 @@ let getAllusercontroller = async (req, res,next) => {
         }
         let userVAlue = await userModel.find({})
         if (!userVAlue) {
-           return res.status(400).send("user not found")
+            return res.status(400).send("user not found")
         }
         userVAlue.password = undefined
         return res.status(200).send({
@@ -25,15 +25,15 @@ let getAllusercontroller = async (req, res,next) => {
     }
 }
 
-let getusercontroller = async (req, res,next) => {
+let getusercontroller = async (req, res, next) => {
     try {
         let id = req.body.id
         let userVAlue = await userModel.findById(id)
         if (!userVAlue) {
-            return  res.status(400).send("user not found")
+            return res.status(400).send("user not found")
         }
         userVAlue.password = undefined
-        return  res.status(200).send({
+        return res.status(200).send({
             success: true,
             message: "user founded successfully",
             userVAlue
@@ -45,11 +45,11 @@ let getusercontroller = async (req, res,next) => {
     }
 }
 
-let updateUser = async (req, res,next) => {
+let updateUser = async (req, res, next) => {
     try {
         let user = await userModel.findById({ _id: req.body.id })
         if (!user) {
-            return   res.status(404).send({
+            return res.status(404).send({
                 success: false, message: "user not found"
             })
         }
@@ -68,7 +68,7 @@ let updateUser = async (req, res,next) => {
     }
 }
 
-const resetpassword = async (req, res,next) => {
+const resetpassword = async (req, res, next) => {
     try {
         const { Email, newpassword, answer } = req.body
         if (!Email || !newpassword || !answer) {
@@ -101,7 +101,7 @@ const resetpassword = async (req, res,next) => {
 
 }
 
-const deleteUser = async (req, res,next) => {
+const deleteUser = async (req, res, next) => {
     console.log(req);
     try {
         await userModel.findByIdAndDelete(req.params.id)
@@ -117,4 +117,4 @@ const deleteUser = async (req, res,next) => {
 }
 
 
-module.exports = { getusercontroller, getAllusercontroller,updateUser, resetpassword, deleteUser }
+module.exports = { getusercontroller, getAllusercontroller, updateUser, resetpassword, deleteUser }

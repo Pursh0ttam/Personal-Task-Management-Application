@@ -23,13 +23,11 @@ let sendmail = async (email, pendingTask = [], msg) => {
                 <p>${msg}</p>
             `
         });
-        console.log("Email sent successfully:", setVal.response);
+        console.log("Email sent successfully");
     } catch (error) {
         console.error('Error sending email:', error);
     }
 };
 
-// sendMail('mpal6953@gmail.com', ['Task 1', 'Task 2', 'Task 3'], 'Please complete these tasks as soon as possible.');
 
-// sendmail()
 module.exports={sendmail}

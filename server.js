@@ -1,4 +1,4 @@
-const express = require("express");
+const express = require('express');
 const colors = require("colors");
 const cors = require("cors");
 const morgan = require("morgan");
@@ -6,11 +6,11 @@ const dotenv = require("dotenv");
 
 const mongodb = require("./config/db");
 // const Router = require('./routes/AuthRoute');
-const todoRoute = require("./routes/TodoRoutes");
-const UserRouter = require("./routes/AuthRoute");
-const { projectNameroute } = require("./routes/ProjectName");
-const { labelroute } = require("./routes/LabelRoute");
-const { repeatroute } = require("./routes/RepeatRoute");
+const todoRoute = require("./routes/todo.route");
+const UserRouter = require("./routes/user.route");
+const { projectNameroute } = require("./routes/projectName.route");
+const { labelroute } = require("./routes/label.route");
+const { repeatroute } = require("./routes/repeat.route");
 
 //^env configuration
 dotenv.config();
@@ -30,7 +30,7 @@ app.use("/api/v1", UserRouter);
 app.use("/api/v1/projectName", projectNameroute);
 
 // ^ Label Route
-app.use("/api/v1/label",labelroute);
+app.use("/api/v1/label", labelroute);
 
 //^ CRUD on Tasks
 app.use("/api/v1/todo", todoRoute);
@@ -65,5 +65,5 @@ app.listen(PORT, () => {
 //   "password":"Thomasyadav21@",
 //   "address":"bihar",
 //   "phone":4569871236,
-//   "userType":"client"  
+//   "userType":"client"
 // }

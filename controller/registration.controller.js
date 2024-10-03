@@ -1,5 +1,5 @@
 const { token } = require("morgan");
-const userModel = require("../model/userModel");
+const userModel = require("../model/user.model");
 const dcryption = require("../passwordprotect/dcryption");
 const encryption = require("../passwordprotect/encryption");
 let bcrypt = require('bcryptjs')
@@ -36,7 +36,7 @@ let registrationController = async (req, res,next) => {
             user
         })
     } catch (error) {
-        next(error)
+       return next(error)
     }
 
 }

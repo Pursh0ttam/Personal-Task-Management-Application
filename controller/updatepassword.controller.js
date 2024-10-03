@@ -1,5 +1,5 @@
 const { genSalt, hash, genSaltSync, compare } = require("bcryptjs")
-const userModel = require("../model/userModel")
+const userModel = require("../model/user.model")
 
 const updatepasword = async (req, res) => {
     try {

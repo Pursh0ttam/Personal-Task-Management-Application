@@ -12,9 +12,9 @@ let auth=(req,res,next)=>{
                     message:"Un-Autherized user"
                 })
             }else{
-                console.log(decoded);
+                // console.log(decoded);
                 req.body.id=decoded.id
-                console.log(req.body);
+                // console.log(req.body);
                 next()
             }
         })

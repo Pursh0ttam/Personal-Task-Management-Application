@@ -1,5 +1,5 @@
-const todoModel = require("../model/todoSchema")
-const label = require("../model/labelModel")
+const todoModel = require("../model/todo.model")
+const label = require("../model/label.model")
 
 
 

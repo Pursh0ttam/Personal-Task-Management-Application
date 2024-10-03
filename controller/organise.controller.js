@@ -1,5 +1,5 @@
-const OrganiseSchema = require("../model/OrganiseSchema")
-const todoModel = require("../model/todoSchema")
+const OrganiseSchema = require("../model/organise.model")
+const todoModel = require("../model/todo.model")
 
 
 
@@ -42,7 +42,7 @@ const tasksByprojectName = async(req,res,next)=>{
        
        return res.status(201).send({
             success: true,
-            message: "Folder created successfully",projectName
+            message: "Todos fetched successfully by project name",projectName
         })
         
     } catch (error) {

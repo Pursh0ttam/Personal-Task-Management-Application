@@ -1,8 +1,8 @@
-const OrganiseSchema = require("../model/OrganiseSchema")
-const todoModel = require("../model/todoSchema")
-const userModel = require("../model/userModel")
+const OrganiseSchema = require("../model/organise.model")
+const todoModel = require("../model/todo.model")
+const userModel = require("../model/user.model")
 const { sendmail } = require("../sendNotification/sendnotification")
-const cron = require('node-cron');
+
 
 
 
@@ -91,7 +91,7 @@ const sortTodos = async (req, res,next) => {
 }
 
 const updateTodoStatus = async (req, res,next) => {
-    console.log(req.params.id);
+    console.log("this is id to update",req.params.id);
     try {
         let TodoId = req.params.id
         if (!TodoId) {
@@ -101,6 +101,8 @@ const updateTodoStatus = async (req, res,next) => {
             })
         }
         let todo = await todoModel.findById(TodoId)
+        console.log("this is todo",todo);
+        console.log("this is req body",req.body);
         if (!todo) {
             return res.status(500).send({
                 success: false,
@@ -110,9 +112,10 @@ const updateTodoStatus = async (req, res,next) => {
         //updating status
         let {status} = req.body
         todo.status=status
+        todo.save()
         return res.status(200).send({
             success: true,
-            message: "task founded", task
+            message: "task founded", todo
         })
 
     } catch (error) {
@@ -197,13 +200,34 @@ let pendingTask = async (req, res,next) => {
 }
 
 const notificationForSingleTAsk = async (req, res,next) => {
-    let todoId = req.params.id
-    let userId = req.body.id
-    let pendingTask = await todoModel.findById(todoId)
-    let user = await userModel.findById(userId)
-    console.log(user);
-    // sending notification
-    sendmail(user.Email, pendingTask)
+    try {
+        let todoId = req.params.id
+        let userId = req.body.id
+        let task = await todoModel.findById(todoId)
+        let user = await userModel.findById(userId)
+       
+        if(task.status==='pending'){
+            sendmail(user.Email, [task.title])
+           return res.status(201).send({
+                success: true,
+                message: "Notification send successfully",
+                size: pendingTask.length,
+                pendingTask
+            })
+        }
+        else{
+            return res.status(404).send({
+                success:false,
+                message:"these task is already completed"
+            })
+
+        }
+        
+    } catch (error) {
+        next(error)
+        
+    }
+   
 }
 
 const AllPendingTodoNotification = async (req, res,next) => {
@@ -218,13 +242,22 @@ const AllPendingTodoNotification = async (req, res,next) => {
             })
         }
         let pendingTask = await todoModel.find({ status: "pending" })
-        sendmail(user.Email, pendingTask)
-        res.status(201).send({
-            success: true,
-            message: "todo fetched successfully",
-            size: pendingTask.length,
-            pendingTask
-        })
+        if(pendingTask){
+            sendmail(user.Email, pendingTask)
+            res.status(201).send({
+                success: true,
+                message: "Notification send successfully",
+                size: pendingTask.length,
+                pendingTask
+            })
+        }
+        else{
+            return res.status(404).send({
+                success:false,
+                message:"There is no pending task "
+            })
+
+        }
     } catch (error) {
         next(error)
     }

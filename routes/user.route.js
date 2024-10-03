@@ -1,8 +1,8 @@
 const express = require('express');
 const auth = require('../middlewares/auth');
-const {registrationController,loginController }= require('../controller/registrationController');
-const { getusercontroller, updateUser,resetpassword, deleteUser, getAllusercontroller  } = require('../controller/getuserController');
-const updatepasword = require('../controller/updatepassword');
+const {registrationController,loginController }= require('../controller/registration.controller');
+const { getusercontroller, updateUser,resetpassword, deleteUser, getAllusercontroller  } = require('../controller/getuser.controller');
+const updatepasword = require('../controller/updatepassword.controller');
 
 let UserRouter = express.Router()
 

@@ -1,6 +1,6 @@
 const { Schema, default: mongoose } = require("mongoose");
-let OrganiseSchema = require('./OrganiseSchema')
-let label = require('./labelModel')
+let OrganiseSchema = require('./organise.model')
+let label = require('./label.model')
 
 let todoSchema = new Schema({
     title: {
@@ -8,12 +8,11 @@ let todoSchema = new Schema({
         required: [true, "Task title is required"],
         unique:true,
         trim:true,
-        toLowerCase:true
-        
+        toLowerCase:true        
     },
     projectId:{
        type:mongoose.Schema.Types.ObjectId,ref:'OrganiseSchema',
-    //    required:true,
+       required:true,
     },
     label:[{type:mongoose.Schema.Types.ObjectId,ref:"label"}],  
     description: {
