@@ -2,6 +2,7 @@ const OrganiseSchema = require("../model/OrganiseSchema")
 const todoModel = require("../model/todoSchema")
 const userModel = require("../model/userModel")
 const { sendmail } = require("../sendNotification/sendnotification")
+const cron = require('node-cron');
 
 
 
@@ -276,46 +277,125 @@ const timeTakenOfSingleTask = async (req, res,next) => {
     }
 
 }
-//^ repeating task at very-day ||week ||month
-const repeatTask = async (req, res,next) => {
-    let current = new Date()
-    let hours = current.getHours()
-    let weekday = current.getDay()
-    let month = current.getMonth() + 1
 
-    try {
-        const { id } = req.body
-        let user = await userModel.findById(id)
-        if (!user) {
-            return res.send({
-                success: false,
-                message: "user not found"
-            })
-        }
 
-        if (hours === 24) {
-            sendmail(user.Email, pendingTask, "create your daily task")
-            createTodo()
-        }
-        if (weekday === 7) {
-            sendmail(user.Email, pendingTask, "create your weekly task")
-            createTodo()
-        }
-        if (month === 12) {
-            sendmail(user.Email, pendingTask, "create your yearly task")
-            createTodo()
-        }
-
-    } catch (error) {
-        next(error)
-    }
-}
+//^ repeating task at very-day ||week ||month   by using logics
 
 
 
+// const repeatTask = async (req, res,next) => {
+//     let current = new Date()
+//     let hours = current.getHours()
+//     let weekday = current.getDay()
+//     let month = current.getMonth() + 1
+
+//     try {
+//         const { id } = req.body
+//         let user = await userModel.findById(id)
+//         if (!user) {
+//             return res.send({
+//                 success: false,
+//                 message: "user not found"
+//             })
+//         }
+// // repeat task for every day 
+// if (hours === 9) {
+//     sendmail(user.Email,"create your daily task")
+//     createTodo()
+// }
+// // repeat task for every week 
+// if (weekday === 7) {
+//     sendmail(user.Email,"create your weekly task")
+//     createTodo()
+// }
+// // repeat task for every month 
+//         if (month === 1) {
+//             sendmail(user.Email,"create your yearly task")
+//             createTodo()
+//         }
+
+//     } catch (error) {
+//         next(error)
+//     }
+// }
+
+// by 3rd part-library
+// repeating task everyDay || everyWeek || everyMonth
+// let everyday
+// let everydaySchdule = async(req,res)=>{
+//      const { id } = req.body
+//         let user = await userModel.findById(id)
+//         if (!user) {
+//             return res.send({
+//                 success: false,
+//                 message: "user not found"
+//             })
+//         }
+
+//      everyday = cron.schedule('* * * * sun mon tue wed thr fri sat sun', () => {
+//         sendmail(user.Email,"create your weekly task")
+//         createTodo()
+//     })
+// }
+
+// //end the task
+// let EndeverydaySchdule = async(req,res)=>{
+//       everyday.stop()
+//   }
+
+// //^ for every week 
+// let everyWeek
+// let everyWeekSchdule = async(req,res)=>{
+//     const { id } = req.body
+//         let user = await userModel.findById(id)
+//         if (!user) {
+//             return res.send({
+//                 success: false,
+//                 message: "user not found"
+//             })
+//         }
+//    everyWeek =  cron.schedule('* * * * mon', () => {
+//       sendmail(user.Email,"create your weekly task")
+//         createTodo()   
+//       });
+// }
+
+// let EndEverydaySchdule=async(req,res)=>{
+//     everyWeek.stop()
+// }
+
+
+// //^ for every month
+
+
+// let everyMonth
+// let everyMonthSchdule = async(req,res)=>{
+//     const { id } = req.body
+//         let user = await userModel.findById(id)
+//         if (!user) {
+//             return res.send({
+//                 success: false,
+//                 message: "user not found"
+//             })
+//         }
+
+//     everyMonth =  cron.schedule('* * * Jan Sun', () => {
+//           sendmail(user.Email,"create your weekly task")
+//         createTodo()  
+//     });
+  
+// }
+
+// let EndeveryMonthSchdule=async(req,res)=>{
+//     everyMonth.stop()
+// }
 
 
 
 
 
-module.exports = { createTodo, getAllTodos,sortTodos, getTodoById,updateTodoStatus, deleteTodo,repeatTask,timeTakenOfSingleTask,AllPendingTodoNotification,pendingTask,notificationForSingleTAsk }
+
+
+
+
+module.exports = { createTodo, getAllTodos,sortTodos, getTodoById,updateTodoStatus, deleteTodo,timeTakenOfSingleTask,AllPendingTodoNotification,pendingTask,notificationForSingleTAsk }

@@ -1,9 +1,10 @@
 const express = require("express");
-const {tasksByprojectName,ProjectName} = require("../controller/OrganiseMiddleware");
+const { tasksByprojectName, ProjectName } = require("../controller/OrganiseController");
+const { labelName, tasksBylabelName } = require("../controller/labelController");
 
 let labelroute = express.Router();
 
-labelroute.post("/projectName", ProjectName);
-labelroute.get("/tasksByprojectName/:id", tasksByprojectName);
+labelroute.post("/labelName", labelName);
+labelroute.get("/tasksByprojectName/:id", tasksBylabelName);
 
 module.exports = { labelroute };

@@ -1,5 +1,5 @@
-const OrganiseSchema = require("../model/OrganiseSchema")
 const todoModel = require("../model/todoSchema")
+const label = require("../model/labelModel")
 
 
 
@@ -13,11 +13,11 @@ const labelName = async(req,res,next)=>{
                 message:"please provide title"
             })
         }
-        let projectName = new label({...value})
-        await projectName.save()
+        let labelName = new label({...value})
+        await labelName.save()
        return res.status(201).send({
             success: true,
-            message: "Folder created successfully",projectName
+            message: "Folder created successfully",labelName
         })
         
     } catch (error) {
@@ -27,22 +27,22 @@ const labelName = async(req,res,next)=>{
 }
 
 
-// fetch todoes by project name
-const tasksByprojectName = async(req,res,next)=>{
+// fetch todoes by label
+const tasksBylabelName = async(req,res,next)=>{
     try {
         let PID = req.params.id
         console.log("this is PID",PID)
         if(!PID){
             return res.status(404).send({
                 success:false,
-                message:"please provide projectName id"
+                message:"please provide label id"
             })
         }
-        let projectName = await todoModel.find({projectId:PID})
+        let tasks = await todoModel.find({label:PID})
        
        return res.status(201).send({
             success: true,
-            message: "Folder created successfully",projectName
+            message: "todos fetched on the basis of label successfully",tasks
         })
         
     } catch (error) {
@@ -51,4 +51,4 @@ const tasksByprojectName = async(req,res,next)=>{
     }
 }
 
-module.exports={ProjectName,tasksByprojectName}
+module.exports={labelName,tasksBylabelName}

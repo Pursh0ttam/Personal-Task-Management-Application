@@ -1,5 +1,5 @@
 const express = require("express");
-const {tasksByprojectName,ProjectName} = require("../controller/OrganiseMiddleware");
+const { tasksByprojectName, ProjectName } = require("../controller/OrganiseController");
 
 let projectNameroute = express.Router();
 

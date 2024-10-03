@@ -9,6 +9,8 @@ const mongodb = require("./config/db");
 const todoRoute = require("./routes/TodoRoutes");
 const UserRouter = require("./routes/AuthRoute");
 const { projectNameroute } = require("./routes/ProjectName");
+const { labelroute } = require("./routes/LabelRoute");
+const { repeatroute } = require("./routes/RepeatRoute");
 
 //^env configuration
 dotenv.config();
@@ -20,10 +22,21 @@ let app = express();
 app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
+
+//^User Registration && CRUD Operation
 app.use("/api/v1", UserRouter);
+
+// ^Project FolderName
 app.use("/api/v1/projectName", projectNameroute);
-//lable Route
+
+// ^ Label Route
+app.use("/api/v1/label",labelroute);
+
+//^ CRUD on Tasks
 app.use("/api/v1/todo", todoRoute);
+
+//^ repeat Tasks
+app.use("/api/v1/repeat", repeatroute);
 
 //^Route not found
 app.use("*", (req, res, next) => {
