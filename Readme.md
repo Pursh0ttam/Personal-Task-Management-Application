@@ -1,4 +1,4 @@
----Task Manager
+---Personal Task Management Application
 
 Description
 
@@ -21,7 +21,7 @@ Database: MongoDB
 Authentication: JWT for secure login
 Real-time Notifications: NodeMailer for sending email reminders
 Task Scheduling: node-cron for recurring tasks
-Load Balancer: Nginx or AWS Elastic Load Balancing (ELB)
+Load Balancer: node:cluster
 
 Installation
 Prerequisites
