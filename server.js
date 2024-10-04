@@ -1,16 +1,18 @@
 const express = require('express');
-// const colors = require("colors");
+const colors = require("colors");
 const cors = require("cors");
 const morgan = require("morgan");
 const dotenv = require("dotenv");
-
 const mongodb = require("./config/db");
-// const Router = require('./routes/AuthRoute');
 const todoRoute = require("./routes/todo.route");
 const UserRouter = require("./routes/user.route");
 const { projectNameroute } = require("./routes/projectName.route");
 const { labelroute } = require("./routes/label.route");
 const { repeatroute } = require("./routes/repeat.route");
+const cookieParser = require("cookie-parser");
+const cluster = require('node:cluster');
+
+
 
 //^env configuration
 dotenv.config();
@@ -18,7 +20,18 @@ dotenv.config();
 //^mongodb connection
 mongodb();
 
+
+// to balance load 
+let os= require("os")
+const totalCpu = os.cpus().length
+if (cluster.isPrimary) {
+  for (let i = 0; i < totalCpu; i++) {
+    cluster.fork();  
+ }
+ } else {
+
 let app = express();
+app.use(cookieParser());
 app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
@@ -53,17 +66,8 @@ app.use((error, req, res, next) => {
 });
 
 let PORT = process.env.PORT || 5000;
-
 app.listen(PORT, () => {
   console.log(`server is running at ${PORT}`.bgBlue.blue);
 });
 
-
-// {
-//   "userName":"thomas",
-//   "Email":"mpal6953@gmail.com",
-//   "password":"Thomasyadav21@",
-//   "address":"bihar",
-//   "phone":4569871236,
-//   "userType":"client"
-// }
+ }

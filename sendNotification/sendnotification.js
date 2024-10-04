@@ -10,7 +10,7 @@ let transport = nodemailer.createTransport({
     }
 });
 
-let sendmail = async (email, pendingTask = [], msg) => {
+let sendmail = async (email,msg, pendingTask = []) => {
     try {
         let taskList = pendingTask.map(task => task.title);
         let setVal = await transport.sendMail({

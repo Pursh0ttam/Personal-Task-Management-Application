@@ -48,12 +48,11 @@ let userSchema = new mongoose.Schema({
             }
         }
     },
-    tokens: [{
-        token: {
-            type: String,
-            required: true
-        }
-    }]
+    answer:{
+        type:String,
+        required:[true,"answer is required"]
+    }
+   
   
 }, { timestamps: true })
 

@@ -207,7 +207,7 @@ const notificationForSingleTAsk = async (req, res,next) => {
         let user = await userModel.findById(userId)
        
         if(task.status==='pending'){
-            sendmail(user.Email, [task.title])
+            sendmail(user.Email,"Please complete tese tasks" [task.title])
            return res.status(201).send({
                 success: true,
                 message: "Notification send successfully",
@@ -243,7 +243,7 @@ const AllPendingTodoNotification = async (req, res,next) => {
         }
         let pendingTask = await todoModel.find({ status: "pending" })
         if(pendingTask){
-            sendmail(user.Email, pendingTask)
+            sendmail(user.Email,"Please complete tese tasks" [task.title])
             res.status(201).send({
                 success: true,
                 message: "Notification send successfully",
@@ -275,160 +275,48 @@ const timeTakenOfSingleTask = async (req, res,next) => {
             })
         }
         let { createdAt, status, updatedAt } = await todoModel.findById(todoId)
-        console.log("this is status", status);
+      
         if (status === "completed") {
-            time = new Date(updatedAt) - new Date(createdAt)
-            let hours = Math.floor(time / 3600000);
+        let time = new Date(updatedAt) - new Date(createdAt);
+
+        let days = Math.floor(time / (24 * 3600000));
+        let hours = Math.floor((time % (24 * 3600000)) / 3600000);
+        let minutes = Math.floor((time % 3600000) / 60000);
             return res.send({
                 success: true,
-                message: "time taken to complete the task",
-                hours: hours, status
+                 status,
+                timeTaken:`${days} days, ${hours} hours, ${minutes} minutes`
             })
         }
         else if (status === "in-process") {
             time = new Date(updatedAt) - new Date(createdAt)
-            let hours = Math.floor(time / 3600000);
+
+            let days = Math.floor(time / (24 * 3600000));
+            let hours = Math.floor((time % (24 * 3600000)) / 3600000);
+            let minutes = Math.floor((time % 3600000) / 60000);
             return res.send({
                 success: true,
-                message: "time taken to complete the task",
-                hours: hours
+                 status,
+                timeTaken:`${days} days, ${hours} hours, ${minutes} minutes`
             })
         }
         else {
             let time = new Date() - new Date(createdAt);
-            let hours = Math.floor(time / 3600000);
+
+            let days = Math.floor(time / (24 * 3600000));
+            let hours = Math.floor((time % (24 * 3600000)) / 3600000);
+            let minutes = Math.floor((time % 3600000) / 60000);
             return res.send({
                 success: true,
-                message: "time taken to complete the task",
-                hours: hours
+                 status,
+                timeTaken:`${days} days, ${hours} hours, ${minutes} minutes`
             })
         }
-
 
     } catch (error) {
         next(error)
     }
 
 }
-
-
-//^ repeating task at very-day ||week ||month   by using logics
-
-
-
-// const repeatTask = async (req, res,next) => {
-//     let current = new Date()
-//     let hours = current.getHours()
-//     let weekday = current.getDay()
-//     let month = current.getMonth() + 1
-
-//     try {
-//         const { id } = req.body
-//         let user = await userModel.findById(id)
-//         if (!user) {
-//             return res.send({
-//                 success: false,
-//                 message: "user not found"
-//             })
-//         }
-// // repeat task for every day 
-// if (hours === 9) {
-//     sendmail(user.Email,"create your daily task")
-//     createTodo()
-// }
-// // repeat task for every week 
-// if (weekday === 7) {
-//     sendmail(user.Email,"create your weekly task")
-//     createTodo()
-// }
-// // repeat task for every month 
-//         if (month === 1) {
-//             sendmail(user.Email,"create your yearly task")
-//             createTodo()
-//         }
-
-//     } catch (error) {
-//         next(error)
-//     }
-// }
-
-// by 3rd part-library
-// repeating task everyDay || everyWeek || everyMonth
-// let everyday
-// let everydaySchdule = async(req,res)=>{
-//      const { id } = req.body
-//         let user = await userModel.findById(id)
-//         if (!user) {
-//             return res.send({
-//                 success: false,
-//                 message: "user not found"
-//             })
-//         }
-
-//      everyday = cron.schedule('* * * * sun mon tue wed thr fri sat sun', () => {
-//         sendmail(user.Email,"create your weekly task")
-//         createTodo()
-//     })
-// }
-
-// //end the task
-// let EndeverydaySchdule = async(req,res)=>{
-//       everyday.stop()
-//   }
-
-// //^ for every week 
-// let everyWeek
-// let everyWeekSchdule = async(req,res)=>{
-//     const { id } = req.body
-//         let user = await userModel.findById(id)
-//         if (!user) {
-//             return res.send({
-//                 success: false,
-//                 message: "user not found"
-//             })
-//         }
-//    everyWeek =  cron.schedule('* * * * mon', () => {
-//       sendmail(user.Email,"create your weekly task")
-//         createTodo()   
-//       });
-// }
-
-// let EndEverydaySchdule=async(req,res)=>{
-//     everyWeek.stop()
-// }
-
-
-// //^ for every month
-
-
-// let everyMonth
-// let everyMonthSchdule = async(req,res)=>{
-//     const { id } = req.body
-//         let user = await userModel.findById(id)
-//         if (!user) {
-//             return res.send({
-//                 success: false,
-//                 message: "user not found"
-//             })
-//         }
-
-//     everyMonth =  cron.schedule('* * * Jan Sun', () => {
-//           sendmail(user.Email,"create your weekly task")
-//         createTodo()  
-//     });
-  
-// }
-
-// let EndeveryMonthSchdule=async(req,res)=>{
-//     everyMonth.stop()
-// }
-
-
-
-
-
-
-
-
 
 module.exports = { createTodo, getAllTodos,sortTodos, getTodoById,updateTodoStatus, deleteTodo,timeTakenOfSingleTask,AllPendingTodoNotification,pendingTask,notificationForSingleTAsk }

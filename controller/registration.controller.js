@@ -10,8 +10,8 @@ let JWT = require('jsonwebtoken')
 
 let registrationController = async (req, res,next) => {
     try {
-        let { userName, password, Email, address, phone } = req.body
-        if (!userName || !password || !Email || !address || !phone ) {
+        let { userName, password, Email, address, phone,answer } = req.body
+        if (!userName || !password || !Email || !address || !phone || !answer ) {
             return res.status(500).send("All inpuput fileds are required")
         }
         //check user
@@ -29,8 +29,8 @@ let registrationController = async (req, res,next) => {
         req.body.password = hashpassword
 
         
-    let token = JWT.sign({ id: Userdata._id }, process.env.JWT_SECRET, { expiresIn: '6h' })
-  req.body.tokens =  token
+        // let token = JWT.sign({ id: Userdata._id }, process.env.JWT_SECRET, { expiresIn: '6h' })
+        // req.body.tokens =  token
 
         let user = await userModel.create(req.body)
         user.password=undefined
@@ -48,12 +48,16 @@ let registrationController = async (req, res,next) => {
 
 let loginController = async (req, res,next) => {
     try{
-
-        let { Email, password } = req.body
+        let { Email, password} = req.body
         if (!Email || !password) {
             return res.status(500).send("Email,password is required")
     }
-    let Userdata = await userModel.findOne({ Email })
+    let phone 
+    if(Number(Email)){
+    phone = Email
+    }
+    // let Userdata = await userModel.findOne({ Email })
+    let Userdata = await userModel.findOne({$or:[{Email},{phone}]})
     if (!Userdata) {
         return res.status(404).send({
             success: false,
@@ -77,6 +81,9 @@ let loginController = async (req, res,next) => {
     }
     //^ token creation
     let token = JWT.sign({ id: Userdata._id }, process.env.JWT_SECRET, { expiresIn: '6h' })
+    res.cookie("access_token", token, {
+      httpOnly: true
+    })
 
     Userdata.password = undefined
     return res.status(200).send({

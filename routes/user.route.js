@@ -6,7 +6,7 @@ const updatepassword = require('../controller/updateUserpassword.controller');
 
 let UserRouter = express.Router()
 
-UserRouter.post('/userregister',registrationController)
+UserRouter.post('/userregister',auth,registrationController)
 UserRouter.post('/userlogin',loginController)
 
 UserRouter.get('/getAllUser',auth,getAllusercontroller)

@@ -17,7 +17,7 @@ let everydaySchdule = async (req, res,next) => {
     }
 
     everyday = cron.schedule('* * * * * sun mon tue wed thr fri sat sun', () => {
-        sendmail(user.Email,[] ,"create your weekly task")
+        sendmail(user.Email,"create your weekly task")
         createTodo()
     })
     return res.status(200).send({
@@ -59,7 +59,7 @@ let everyWeekSchdule = async (req, res) => {
         })
     }
     everyWeek = cron.schedule('* * * * mon', () => {
-        sendmail(user.Email, "create your weekly task")
+        sendmail(user.Email,"create your weekly task")
         createTodo()
     });
 }
@@ -84,7 +84,7 @@ let everyMonthSchdule = async (req, res) => {
     }
 
     everyMonth = cron.schedule('* * * Jan Sun', () => {
-        sendmail(user.Email, "create your weekly task")
+        sendmail(user.Email,"create your weekly task")
         createTodo()
     });
 
