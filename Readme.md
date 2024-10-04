@@ -1,9 +1,11 @@
----------Task Manager
+---Task Manager
 
- Description
+Description
+
 The Task Manager is a robust and efficient application designed to help users manage their tasks. Users can sign up, log in, create tasks, and perform full CRUD operations (Create, Read, Update, Delete). The app also provides features for setting recurring tasks, tracking time spent on tasks, and sending notifications for pending tasks. With load balancing, the application ensures scalability and reliability for handling increased traffic.
 
--------Features
+Features
+
 User Authentication: Users can sign up and log in securely.
 Task Management:
 Create, read, update, and delete tasks.
@@ -12,7 +14,8 @@ Time Tracking: Track and analyze time spent on each task.
 Email Notifications: Receive email notifications for pending tasks to keep you on schedule.
 Load Balancer: Scalable and efficient handling of traffic to ensure smooth performance.
 
-----------Technologies Used
+Technologies Used
+
 Backend: Node.js, Express.js
 Database: MongoDB
 Authentication: JWT for secure login
