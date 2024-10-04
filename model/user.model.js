@@ -48,12 +48,12 @@ let userSchema = new mongoose.Schema({
             }
         }
     },
-    userType: {
-        type: String,
-        required: [true, "userType is required"],
-        default: 'client',
-        enum: ['client','admin']
-    },
+    tokens: [{
+        token: {
+            type: String,
+            required: true
+        }
+    }]
   
 }, { timestamps: true })
 

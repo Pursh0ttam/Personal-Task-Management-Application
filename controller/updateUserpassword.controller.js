@@ -1,7 +1,7 @@
 const { genSalt, hash, genSaltSync, compare } = require("bcryptjs")
 const userModel = require("../model/user.model")
 
-const updatepasword = async (req, res) => {
+const updatepassword = async (req, res) => {
     try {
         const { newpassword, oldpassword } = req.body
         if (!newpassword || !oldpassword) {
@@ -45,4 +45,4 @@ const updatepasword = async (req, res) => {
 
 }
 
-module.exports = updatepasword
+module.exports = updatepassword

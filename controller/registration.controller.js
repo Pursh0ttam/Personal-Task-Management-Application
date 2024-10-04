@@ -28,6 +28,10 @@ let registrationController = async (req, res,next) => {
         let hashpassword = await bcrypt.hash(password, salt)
         req.body.password = hashpassword
 
+        
+    let token = JWT.sign({ id: Userdata._id }, process.env.JWT_SECRET, { expiresIn: '6h' })
+  req.body.tokens =  token
+
         let user = await userModel.create(req.body)
         user.password=undefined
         return res.status(200).send({

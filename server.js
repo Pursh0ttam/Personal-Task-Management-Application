@@ -1,5 +1,5 @@
 const express = require('express');
-const colors = require("colors");
+// const colors = require("colors");
 const cors = require("cors");
 const morgan = require("morgan");
 const dotenv = require("dotenv");
